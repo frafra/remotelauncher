@@ -32,11 +32,11 @@
 #sidebar {
   position: fixed;
   top: 0px;
-  bottom: 0px;
+  bottom: 30px;
   right: 0px;
   width: 400px;
   padding: 15px;
-  border-left-style: solid;
+  border-left: 2px solid lightblue;
   overflow-y: scroll;
 }
 
@@ -46,6 +46,18 @@
 
 #sidebar-content {
   padding-top: 15px;
+}
+
+#footer {
+  position: fixed;
+  bottom: 0px;
+  left: 0px;
+  right: 0px;
+  height: 25px;
+  padding: 5px;
+  padding-bottom: 0px;
+  background-color: lightblue;
+  text-align: center;
 }
 
 </style>
@@ -74,6 +86,10 @@
   </div>
   <div id="sidebar-content">
   </div>
+</div>
+
+<div id="footer">
+  <a href="admin/">Administration</a> | <i>"Remote launcher" was written by <a href="//frafra.eu">Frafra<a> and released under <a href="https://www.gnu.org/licenses/agpl-3.0.html">AGPLv3</a> | <a href="https://github.com/frafra/remotelauncher">Source code</a></i>
 </div>
 
 <script>
