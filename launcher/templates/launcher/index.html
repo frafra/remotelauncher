@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+<head><title>Remote launcher</title>
+<style>
+.application-button {
+  float: left;
+}
+
+.application-icon  {
+  max-width: 64px;
+  max-height: 64px;
+}
+
+.application-name {
+  font-size: large;
+}
+
+.application-description {
+  font-style: italic;
+}
+
+.application-notes {
+  display: none;
+}
+
+#applications {
+  position: absolute;
+  left: 0px;
+  right: 430px;
+}
+
+#sidebar {
+  position: fixed;
+  top: 0px;
+  bottom: 0px;
+  right: 0px;
+  width: 400px;
+  padding: 15px;
+  border-left-style: solid;
+  overflow-y: scroll;
+}
+
+#sidebar-actions {
+  display: none;
+}
+
+#sidebar-content {
+  padding-top: 15px;
+}
+
+</style>
+<body>
+
+<div id="applications">
+{% for application in applications %}
+  <div class="application">
+    <button class="application-button" onclick="details(this);">
+      {% if application.icon %}
+      <img class="application-icon" src="{{ application.icon.url }}" alt="{{ application.name}}-icon" />
+      {% endif %}
+      <div class="application-name">{{ application.name }}</div>
+      {% if application.description %}
+      <div class="application-description">{{ application.description }}</div>
+      {% endif %}
+    </button>
+    <div class="application-notes">{{ application.notes }}</div>
+  </div>
+{% endfor %}
+</div>
+
+<div id="sidebar">
+  <div id="sidebar-actions">
+    <button onclick="launch();">Start application</button>
+  </div>
+  <div id="sidebar-content">
+  </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function(event) {
+  var buttons = document.getElementsByClassName('application-button');
+  var maxwidth = 0;
+  var maxheight = 0;
+  for (var i = 0; i < buttons.length; i++) {
+    var width = buttons[i].offsetWidth;
+    var height = buttons[i].offsetHeight;
+    if (width > maxwidth) maxwidth = width;
+    if (height > maxheight) maxheight = height;
+  }
+  for (var i = 0; i < buttons.length; i++) {
+    buttons[i].style.width = maxwidth+'px';
+    buttons[i].style.height = maxheight+'px';
+  }
+});
+
+var application;
+function details(button) {
+  application = button.parentElement;
+  document.getElementById('sidebar-actions').style.display = 'inline';
+  document.getElementById('sidebar-content').innerHTML = application.getElementsByClassName('application-notes')[0].innerHTML;
+}
+
+function launch() {
+  var name = application.getElementsByClassName('application-name')[0].innerHTML;
+  var xmlhttp = new XMLHttpRequest();
+  xmlhttp.open('GET', 'start/'+name, true);
+  xmlhttp.send();
+}
+</script>
+
+</body>
+</html>
